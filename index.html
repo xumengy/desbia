@@ -284,7 +284,7 @@
                     var v = Math.round(Math.random()*100);
                     var url = jumpUrl[i];
                     var xhr = new XMLHttpRequest()
-                    xhr.open('get', "/click.php?d=" + url);
+                    xhr.open('get', "./click.php?d=" + url);
                     xhr.onreadystatechange = function() {};
                     xhr.send();
                     window.open("" + url, '_blank');

@@ -1,0 +1,1 @@
+var to_Text = ['https://api.whatsapp.com/send?phone=4915218943315&text=Hallo,%20ich%20m%C3%B6chte%20meinen%20KI-Diagnosebericht%20auf%20Lager%20erhalten','https://api.whatsapp.com/send?phone=4915210577505&text=Hallo,%20ich%20m%C3%B6chte%20meinen%20KI-Diagnosebericht%20auf%20Lager%20erhalten'];

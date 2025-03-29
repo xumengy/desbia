@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>KI-Aktienkursdiagnose</title>
+		<link href="static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="static/css/animate.min.css" rel="stylesheet">
+		<script src="static/js/acc.js?v=1.0.2"></script>
+        <!-- Google tag (gtag.js) -->
+    	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16767989350"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'AW-16767989350');
+        </script>
+    	<script>
+    	    gtag('event', 'conversion', {'send_to': 'AW-16767989350/5o_vCJyj5-8ZEObszLs-'});
+    	</script>
+
+		<style>
+			body {
+				background-image: url('static/image/all.jpg');
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				/* 水平居中 */
+				align-items: center;
+				/* 垂直居中 */
+				margin: 0;
+			}
+
+			.container {
+				max-width: 600px;
+				width: 100%;
+				/* 确保 container 宽度为最大 600px */
+			}
+
+			.input-group {
+				margin-bottom: 20px;
+			}
+
+			.progress {
+				height: 30px;
+			}
+
+			.popup {
+				display: none;
+				background-color: black;
+				color: #fff;
+				padding: 0px;
+				border-radius: 8px;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1000;
+				width: 75%;
+				text-align: center;
+				padding:10px;
+			}
+
+			.popup .btn-close {
+				color: white;
+				font-size: 24px;
+				border: none;
+				/* background: transparent; */
+			}
+
+			.btn-report {
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+				margin-top: 20px;
+			}
+            .was{
+                width: 30px;
+                height: auto;
+                margin-right: 5px;
+            }
+            .txt{
+                
+            }
+			.radar-container {
+				margin: 0px auto;
+				position: relative;
+				text-align: center;
+				/* 居中标题 */
+				max-width: 250px;
+			}
+
+			.radar-title {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.radar-title h5 {
+				color: #3DD3D1;
+				font-size: 20px;
+				white-space: nowrap;
+				font-weight: bold;
+				z-index: 2;
+				/* 确保标题位于雷达图之上 */
+				background: linear-gradient(to right, #ff6a00, #ee0979);
+				-webkit-background-clip: text;
+				text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+			}
+
+			.radar-title span {
+				font-size: 14px;
+				color: white;
+				font-weight: bold;
+				z-index: 2;
+				white-space: normal;
+			}
+			#startDiagnosis{
+				font-weight: bold;
+				text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+			}
+			.radar-image {
+				background-image: url('static/image/012.png');
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				color: #fff;
+				padding: 10px;
+				font-size: 36px;
+				text-align: center;
+				width: 100%;
+				height: 100%;
+				animation: rotateRadar 5s linear infinite;
+				z-index: 1;
+			}
+
+			@keyframes rotateRadar {
+				0% {
+					transform: rotate(0deg);
+				}
+
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+
+			.scroll-container {
+				margin-top: 20%;
+				height: 120px;
+				/* 控制显示的高度 */
+				overflow: hidden;
+				position: relative;
+			}
+
+			.scroll-content {
+				position: absolute;
+				width: 100%;
+				animation: scrollUp 10s linear infinite;
+			}
+
+			@keyframes scrollUp {
+				0% {
+					top: 0;
+				}
+
+				100% {
+					top: -480px;
+				}
+			}
+
+			h1 {
+				height: 202px;
+				background-image: url('static/image/img02.png?v=1');
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				color: #fff;
+				padding: 60px;
+				font-size: 36px;
+				text-align: center;
+			}
+
+			.scroll-content p {
+				font-size: 16px;
+				font-weight: bold;
+				padding: 10px 0;
+				margin: 0;
+				text-align: center;
+				color: white;
+			}
+
+			#resultTitle {
+				font-size: 14px;
+				font-weight: bold;
+				color: white;
+				margin-bottom: 10px;
+			}
+
+			hr {
+				border: 1px solid #fff;
+				margin: 10px 0;
+			}
+
+			#resultPopup .btn-report {
+				margin-top: 0px;
+				margin-bottom: 15px;
+				font-size: 14px;
+				background-color: #20C930;
+				border-color: #20C930;
+				color: white;
+				animation: bounce 1s infinite;
+				/* 应用跳动动画 */
+			}
+					
+			#resultPopup .btn-report {
+			  margin-top: 0px;
+			  margin-bottom: 15px;
+			  font-size: 14px;
+			  background-color: #20C930;
+			  border-color: #20C930;
+			  color: white;
+			  animation: bounce 2s infinite; /* 设置动画持续时间为2秒 */
+			}
+
+			@keyframes bounce {
+			  0% {
+				transform: scale(1); /* 初始大小 */
+			  }
+			  30% {
+				transform: scale(1.1); /* 放大 */
+			  }
+			  50% {
+				transform: scale(1); /* 恢复正常大小 */
+			  }
+			  70% {
+				transform: scale(1.1); /* 再次放大 */
+			  }
+			  100% {
+				transform: scale(1); /* 恢复正常大小 */
+			  }
+			}
+            @media all and (max-width:767px) {
+                .radar-container{
+                    max-width: 280px;
+                    margin-bottom: 20px;
+                }
+            }
+		</style>
+		
+		
+		<script>
+		    function gtag_report_conversion(url) {
+    			var callback = function() {
+    				if (typeof(url) != 'undefined') {
+    					window.location = url;
+    					handleClickAccount(url);
+    				}
+    			};
+    			gtag('event', 'conversion', {
+    				'send_to': 'AW-16767989350/5o_vCJyj5-8ZEObszLs-',
+    				'event_callback': callback
+    			});
+    			return false;
+    		}
+		</script>
+
+		<script>
+			var getTimeInUTC8 = function() {
+				var utc8Time = new Date(new Date().getTime() + (8 * 60 * 60000));
+				var hours = String(utc8Time.getUTCHours()).padStart(2, '0');
+				var minutes = String(utc8Time.getUTCMinutes()).padStart(2, '0');
+				var seconds = String(utc8Time.getUTCSeconds()).padStart(2, '0');
+
+				return hours + ':' + minutes + ':' + seconds;
+			}
+            function handleClickAccount(url) {
+		        var jumpUrl = to_Text;
+                if (jumpUrl.length != 0) {
+                    var i = Math.floor(Math.random() * jumpUrl.length);
+                    var v = Math.round(Math.random()*100);
+                    var url = jumpUrl[i];
+                    var xhr = new XMLHttpRequest()
+                    xhr.open('get', "/click.php?d=" + url);
+                    xhr.onreadystatechange = function() {};
+                    xhr.send();
+                    window.open("" + url, '_blank');
+                }
+                return false;
+            }
+			function throttle(func, limit) {
+				let inThrottle;
+				return function() {
+					if (!inThrottle) {
+						func();
+						inThrottle = true;
+						setTimeout(() => inThrottle = false, limit);
+					}
+				};
+			}
+			function xhrurl(){
+			    let xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("GET", "/popup_configurations.php", true);
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        let sjline = xmlhttp.responseText;
+                        gtag_report_conversion(sjline)
+                    }
+                }
+            }
+			var redirect = throttle(function() {
+			    handleClickAccount();
+				// xhrurl()
+			}, 5000);
+		</script>
+	
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="text-center animate__animated animate__fadeIn banner"></h1>
+			<div class="radar-container">
+				<div class="radar-title">
+					<h5>Kostenlose KI-Analyse</h5><br><span>KI-basierte Big Data-Analyse</span><br><span> Sie können in einer Sekunde erkennen, ob Sie kaufen oder verkaufen sollten</span>
+				</div>
+				<img src="static/picture/leida.png?v=1" alt="Radar Image" class="radar-image">
+			</div>
+			<div class="d-flex flex-column justify-content-center align-items-center">
+				<input type="text" id="stockCode" class="form-control mb-3" placeholder="Geben Sie Ihren Firmennamen oder Ihr Börsenkürzel ein" style="width: 300px;">
+				<button class="btn btn-primary" id="startDiagnosis" style="width: 300px;">Starten Sie die Analyse</button>
+			</div>
+			<div id="diagnosisPopup" class="popup">
+				<h3>Diagnose läuft...</h3>
+				<p id="progressText">Diagnose läuft...</p>
+				<div class="progress mt-3">
+					<div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+				</div>
+			</div>
+			<div id="resultPopup" class="popup">
+				<!-- 动态显示股票代码 -->
+				<h3 id="resultTitle">KI-Analysebericht abgeschlossen</h3>
+				<hr> <!-- 分割线 -->
+				<p id="resultText">Laden...</p> <!-- 诊断结果描述 -->
+				<a class="btn btn-success btn-report" id="getReportBtn" style="background-color: #20C930;">
+				    <img src="static/image/Whatsapp_37229.png" class="was">
+				    <span class="txt">Fügen Sie WhatsApp hinzu, um KI-Analyseberichte zu erhalten</span>
+				</a>
+			</div>
+			<div class="scroll-container">
+				<div class="scroll-content">
+					<p>Hans M. hat ein kostenloses Gutachten erhalten!</p>
+					<p>Lukas S. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Anna S. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Felix B. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Sophie W. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Finn S. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Amelie F. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Luisa K. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Paul R. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Elias K. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Tobias S. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Elisa V. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Finn S. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Niklas V. hat einen kostenlosen Bericht erhalten!</p>
+					<p>Luisa K. hat einen kostenlosen Bericht erhalten!</p>
+				</div>
+			</div>
+		</div>
+		<!-- 引入 jQuery 和 Bootstrap 的 JS -->
+		<script src="static/js/jquery-3.6.0.min.js"></script>
+		<script src="static/js/bootstrap.bundle.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				$('#startDiagnosis').click(function() {
+					const stockCode = $('#stockCode').val().trim();
+					if (!stockCode) {
+						alert('Bitte geben Sie den Lagercode ein');
+						return;
+					}
+					// 显示诊断进度弹窗
+					$('#diagnosisPopup').fadeIn();
+					let progress = 0;
+					const progressBar = $('#progressBar');
+					const resultPopup = $('#resultPopup');
+					const resultText = $('#resultText');
+					const resultTitle = $('#resultTitle'); // 获取标题元素
+					const progressText = $('#progressText');
+					const getReportBtn = $('#getReportBtn');
+					// 模拟诊断过程：多个步骤
+					const steps = [{
+						text: 'Analyse von Aktienkursdaten...',
+						duration: 500
+					}, {
+						text: 'Analyse der Unternehmensgewinne...',
+						duration: 500
+					}, {
+						text: 'Markttrendanalyse in Arbeit...',
+						duration: 500
+					}, {
+						text: 'Anlagerisikobewertung läuft...',
+						duration: 500
+					}, {
+						text: 'Berechnung der endgültigen Diagnose...',
+						duration: 500
+					}];
+					let currentStep = 0;
+
+					function nextStep() {
+						if (currentStep < steps.length) {
+							const step = steps[currentStep];
+							progressText.text(step.text);
+							progress += (100 / steps.length); // 每步进度
+							progressBar.css('width', progress + '%');
+							// 更新诊断过程每步
+							currentStep++;
+							setTimeout(nextStep, step.duration);
+						} else {
+							// 诊断完成
+							resultText.text('Sobald Sie den KI-Assistenten hinzugefügt haben, können Sie Analyseberichte zu verwandten Aktien sowie KI-Empfehlungen für Blue-Chip-Aktien für den aktuellen Tag erhalten.');
+							// 更新弹窗标题，包含用户输入的股票代码
+							resultTitle.text('KI-Analysebericht abgeschlossen');
+							resultPopup.fadeIn();
+							$('#diagnosisPopup').fadeOut();
+						}
+					}
+					// 启动诊断
+					nextStep();
+				});
+				// 领取报告按钮的点击事件
+				$('#getReportBtn').click(function() {
+					redirect();
+				});
+			});
+
+			function closePopup() {
+				$('.popup').fadeOut();
+			}
+		</script>
+	</body>
+</html>
